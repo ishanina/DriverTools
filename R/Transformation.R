@@ -122,5 +122,6 @@
     if (!((substr(string,i,i) == "(" && substr(string,i+2,i+2) == ")")||
           (substr(string,i-2,i-2) == "(" && substr(string,i,i) == ")")))
       out <- paste(out,substr(string,i,i),sep = "")
+  out <- gsub("+"," + ",out,fixed = T)
   out
 }

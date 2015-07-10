@@ -1,1 +1,10 @@
-exportPattern("^[[:alpha:]]+")
+export(
+    "Display",
+    "Distribute",
+    "ExpressionTransform",
+    "Factor",
+    "parser",
+    "Simplify",
+    "Sort",
+    "Transform"
+)

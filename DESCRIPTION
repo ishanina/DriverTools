@@ -1,0 +1,11 @@
+Package: DriverTools
+Type: Package
+Title: Later
+Version: 0.1
+Date: 2015-01-30
+Author: Ishan Levy
+Maintainer: Ishan Levy<ishanlevy97@gmail.com>
+Description: Later
+License: GPL (>=2)
+LazyLoad: yes
+Depends: R (>= 2.10.1), methods

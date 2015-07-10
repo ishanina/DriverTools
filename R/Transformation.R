@@ -79,14 +79,48 @@
   string <- substr(string,1,nchar(string) - 3)
 }
 
-
-#a = list()
-
-#a[[length(a) + 1]] = list("C","A")
-#a[[length(a) + 1]] = list("B","A")
-#a[[length(a) + 1]] = list("B","C")
-#Factor(a)
-
-#Display(a)
-#Display(Transform(a))
-#Display(Transform(Transform(a)))
+#' Transforms a string to get an expression for the complement set.
+#' @param string
+#' @return a simplified string representing the complement set
+#' @details This function switches the + operator into multiplication and vice versa.
+#'  The function should run in linear time with the length of the input string.
+#'  
+#' For expressions that are factored like this one, this algorithm is much faster\cr
+#' \code{system.time(print(Display(Simplify(parser(}\cr
+#' \code{ExpressionTransform("A(B + C)D + C(D+E(F+C))AG")))))) #0.01 seconds}\cr\cr
+#' \code{system.time(print(Display(}\cr
+#' \code{Transform(parser("A(B + C)D + C(D+E(F+C))AG"))))) #0.26 seconds}
+#' 
+#' For expressions that are expanded out like this one, the algorithm is somewhat slower
+#' \code{system.time(Display(Simplify(parser(}\cr
+#' \code{ExpressionTransform("ABC + DEF + GHI + JKL + MNO + PQR"))))) #39.42 seconds}\cr\cr
+#' \code{system.time(Display(}\cr
+#' \code{Transform(parser("ABC + DEF + GHI + JKL + MNO + PQR")))) #38.02 seconds}
+#' 
+#' However it is slower because of the parser, which expands out the expression.
+#' The factored expression is obtained much more quickly\cr
+#' \code{system.time(print(}\cr
+#' \code{ExpressionTransform("ABC + DEF + GHI + JKL + MNO + PQR"))) #0 seconds}\cr
+#' [1] "(A+B+C)(D+E+F)(G+H+I)(J+K+L)(M+N+O)(P+Q+R)"
+"ExpressionTransform" <- function(string) {
+  parentheses <- ""
+  string <- gsub(" ","",string,fixed = T)
+  for (i in 1:nchar(string))
+    switch(substr(string,i,i),
+           parentheses <- paste(parentheses,"(",substr(string,i,i),")",sep = ""),
+           "(" = ,
+           ")" = ,
+           "+" = parentheses <- paste(parentheses,substr(string,i,i),sep = "")
+           )
+  string <- gsub("+"," ",parentheses,fixed = T)
+  string <- gsub(")(","+",string,fixed = T)
+  while (substr(string,1,1) == "(" && getlastparen(string) == nchar(string))
+    string <- substr(string,2,nchar(string)-1)
+  string <- gsub(" ","",string,fixed = T)
+  out <- ""
+  for (i in 1:nchar(string))
+    if (!((substr(string,i,i) == "(" && substr(string,i+2,i+2) == ")")||
+          (substr(string,i-2,i-2) == "(" && substr(string,i,i) == ")")))
+      out <- paste(out,substr(string,i,i),sep = "")
+  out
+}

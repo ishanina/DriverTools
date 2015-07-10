@@ -4,7 +4,7 @@
 #' @examples
 #' parser("(A(B + C)D + C(D+E(F+C))AG)")
 "parser" <- function(input) {
-  if (!Proper(input) || input == "")
+  if (!Proper(input) || input == "" || input == "+")
     list(list("Incorrect Input"))
   else {
     no <- gsub(" ","",input,fixed = T)

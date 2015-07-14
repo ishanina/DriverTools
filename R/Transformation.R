@@ -15,7 +15,7 @@
       # The below expression is used to get an index of a set such that
       # a unique combination of elements is used every iteration of i
       c <- union(c,list(input_list[[j]][[1 + ((i - 1) %/% a[j]) %% length(input_list[[j]])]]))
-    n <- union(n,ListSort(c)) # set of all combinations
+    n <- union(n,list(ListSort(c))) # set of all combinations
   }
   n
 }

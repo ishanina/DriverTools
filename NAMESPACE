@@ -5,6 +5,6 @@ export(
     "Factor",
     "parser",
     "Simplify",
-    "Sort",
+    "ListSort",
     "Transform"
 )

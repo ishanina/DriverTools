@@ -10,9 +10,13 @@ Factor(input_list)
 \item{input_list}{a list of driver/therapeutic sets}
 }
 \value{
-list of lists of factors and lists of sets
+String of factored expression
 }
 \description{
 Factors a set of driver/therapeutic sets
+}
+\examples{
+Factor(parser("AB + AC + AD"))
+Factor(parser("BD + AC + AD + BC"))
 }
 

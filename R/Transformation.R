@@ -15,7 +15,7 @@
       # The below expression is used to get an index of a set such that
       # a unique combination of elements is used every iteration of i
       c <- union(c,list(input_list[[j]][[1 + ((i - 1) %/% a[j]) %% length(input_list[[j]])]]))
-    n <- union(n,list(as.list(sort(unlist(c))))) # set of all combinations
+    n <- union(n,ListSort(c)) # set of all combinations
   }
   n
 }
@@ -24,10 +24,11 @@
 #' @param list
 #' @return sorted list. If the input list has numbers, they will be
 #'   numerically sorted. If strings are inputed, they will be lexicographically sorted
-"Sort" <- function(list) {
-  for (i in 1:length(list))
-    a[[i]] <- as.list(sort(unlist(list[[i]])))
-  a
+"ListSort" <- function(list) {
+  if (typeof(list) != "closure")
+    as.list(sort(unlist(list)))
+  else
+    list
 }
 #' Finds minimal sets. Given an input, this function returns all the distinct 
 #' sets that are not proper subsets of other sets.
@@ -54,15 +55,39 @@
 
 #' Factors a set of driver/therapeutic sets
 #' @param input_list a list of driver/therapeutic sets
-#' @return list of lists of factors and lists of sets
+#' @return String of factored expression
+#' @examples 
+#' Factor(parser("AB + AC + AD"))
+#' Factor(parser("BD + AC + AD + BC"))
 "Factor" <- function(input_list) {
-  input_list <- Sort(input_list)
   a = list()
+  for (i in input_list)
+    a[[length(a)+1]] <- ListSort(i)
+  c = c()
   for (i in 1:(length(input_list)-1))
-    for (k in (i+1):length(input_list)) {
-      a[[length(a)+1]] <- intersect(input_list[[i]],input_list[[k]])
-    }
-  a
+    for (k in (i+1):length(input_list))
+      if (length(intersect(input_list[[i]],input_list[[k]])) != 0)
+        c <- c(c,Display(list(ListSort(intersect(input_list[[i]],input_list[[k]])))))
+  if (is.null(c))
+    Display(input_list)
+  else
+  {
+    b = as.factor(c)
+    final = paste(names(sort(summary(b),decreasing = T)[1]),"(",sep = "")
+    fac = parser(names(sort(summary(b),decreasing = T)[1]))[[1]]
+    fact = list()
+    notfact = list()
+    for (i in 1:(length(input_list)))
+      if (!setequal(intersect(input_list[[i]],fac),fac))
+        input_list[[i]] -> notfact[[length(notfact) + 1]]
+      else
+        setdiff(input_list[[i]], fac) -> fact[[length(fact) + 1]]
+    switch (as.character(length(notfact)),
+            final <- paste(final,Factor(fact),") + ",Factor(notfact),sep = ""),
+            "0" = final <- paste(final,Factor(fact),")",sep = ""),
+            "1" = final <- paste(final,Factor(fact),") + ",Display(notfact),sep = ""))
+    final
+  }
 }
 #' Displays drivers or therapeutics in a simple way
 #' @param input_list sets of driver/therapeutic sets

@@ -15,20 +15,23 @@ shinyUI(fluidPage(
            example, '(A + D)F' is interpreted as 'AF + DF'.</p> <p>There 
            are currently three algorithms in place. The first, called 
            'Default' simplifies the expression, distributes each term,
-           and simplifies. The second algorithm, called 'Expression 
-           Simplify' modifies the original expression, then expands it
-           out. This is much faster than 'Default' when there are 
-           parentheses in the input expression, and is recommended for
-           expanded results. The last algorithm, 'Expression' is the same
-           as before, except it does not simplify. It is extremely fast, 
-           and gives a factored answer.</p>"),
+           and simplifies. The second algorithm, called 'Expression' is
+           extremely fast, and gives a factored, but unsimplified answer. 
+           The third algorithm, 'Expression Simplify' modifies the original
+           expression, then expands it out. This is much faster than 'Default'
+           when there are parentheses in the input expression.
+           The last algorithm factors the input expression, and then runs
+           the expression simplify algorithm. It is fastest when the input
+           is not factored.</p>"),
   fluidRow(
     column(6,selectInput("method", label = "Method", selected = 3,
                 choices = list(
                   "Standard" = 1, 
                   "Expression Simplify" = 2, 
-                  "Expression" = 3))),
-    column(1,checkboxInput("auto","Apply", value = T))
+                  "Expression" = 3,
+                  "Factor Expression Simplify" = 4))),
+    column(1,checkboxInput("auto","Apply", value = T)),
+    column(1,checkboxInput("time","Time", value = F))
   ),
   tagAppendAttributes(
     textInput("text_in","Enter sets (separated by pluses)",value = "AB + CD"),

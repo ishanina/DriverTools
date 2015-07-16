@@ -1,6 +1,7 @@
 #' Parses input to interpret it as driver/therapeutic sets
 #' @param input
 #' @return the driver/therapeutic sets denoted by the input string
+#' @details this function explicitly requires the multiplication operator '*'
 #' @examples
 #' mparser("(A*(B + C)*D + C*(D+E*(F+C))*A*G)")
 "mparser" <- function(input) {
@@ -22,7 +23,7 @@
                no <- substr(no, 2,nchar(no))
              },
              "(" = {
-               b <- Multiply(b,parser(substr(no,2,getlastparen(no)-1)))
+               b <- Multiply(b,mparser(substr(no,2,getlastparen(no)-1)))
                no <- substr(no, getlastparen(no)+1,nchar(no))
              },
              {

@@ -99,7 +99,7 @@
   for (i in input_list) {
     for (j in i)
       string = paste(string,toString(j),sep = "")
-    string = paste(string," + ",sep = "")
+    string = paste(string,"+",sep = "")
   }
   string <- substr(string,1,nchar(string) - 3)
 }
@@ -147,6 +147,5 @@
     if (!((substr(string,i,i) == "(" && substr(string,i+2,i+2) == ")")||
           (substr(string,i-2,i-2) == "(" && substr(string,i,i) == ")")))
       out <- paste(out,substr(string,i,i),sep = "")
-  out <- gsub("+"," + ",out,fixed = T)
   out
 }

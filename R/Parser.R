@@ -8,7 +8,6 @@
     list(list("Incorrect Input"))
   else {
     no <- gsub(" ","",input,fixed = T)
-    level <- 1
     a <- list()
     b <- list()
     while(nchar(no) > 0)

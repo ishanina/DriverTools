@@ -31,10 +31,11 @@ shinyUI(fluidPage(
                   "Expression" = 3,
                   "Factor Expression Simplify" = 4))),
     column(1,checkboxInput("auto","Apply", value = T)),
-    column(1,checkboxInput("time","Time", value = F))
+    column(1,checkboxInput("time","Time", value = F)), 
+    column(1,checkboxInput("mult","Use '*'",value = T))
   ),
   tagAppendAttributes(
-    textInput("text_in","Enter sets (separated by pluses)",value = "AB + CD"),
+    textInput("text_in","Enter sets (separated by pluses)",value = "A*B + C*D"),
     style = "width: 100%; "),
   textOutput("text_out")
 ))

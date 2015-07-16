@@ -6,5 +6,9 @@ export(
     "parser",
     "Simplify",
     "ListSort",
-    "Transform"
+    "Transform",
+    "mFactor",
+    "mparser",
+    "mExpressionTransform",
+    "mDisplay"
 )

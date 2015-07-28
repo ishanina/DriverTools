@@ -2,38 +2,16 @@ library(shiny)
 library(DriverTools)
 
 shinyServer(function(input, output) {
-  output$text_out = reactive(getOutput(input,output))
-})
-
-"getOutput" <- function(input,output) {
-  if (input$auto){
-    if (input$mult)
-      if (input$time) 
-        switch(input$method,
-               "1" = as.character(system.time(mDisplay(Transform(mparser(input$text_in))))[3]),
-               "2" = as.character(system.time(mDisplay(Simplify(mparser(mExpressionTransform(input$text_in)))))[3]),
-               "3" = as.character(system.time(mExpressionTransform(input$text_in))[3]),
-               "4" = as.character(system.time(mDisplay(Simplify(mparser(mExpressionTransform(mFactor(mparser(input$text_in)))))))[3]))
-      else
-        switch(input$method,
-               "1" = paste("Output:",mDisplay(Transform(mparser(input$text_in)))),
-               "2" = paste("Output:",mDisplay(Simplify(mparser(mExpressionTransform(input$text_in))))),
-               "3" = paste("Output:",mExpressionTransform(input$text_in)),
-               "4" = paste("Output:",mDisplay(Simplify(mparser(mExpressionTransform(mFactor(mparser(input$text_in))))))))
+  "ExpressionSimplify" <- expression({Display(Simplify(RemoveDefine(SatisfiableList(parser(InvertString(ExpressionTransform(Sub(res[[4]][i],length(res[[3]]),res[[3]],res[[4]]))))),res[[3]])))})
+  "Factoring" <- expression({
+    Display(Simplify(InvertList(SatisfiableList(parser(ExpressionTransform(Factor(parser(input$text_in))))))))
+  })
+  
+  "getOutput" <- function() {
+    if (input$auto)
+      c("Output",SubstituterTherapies(isolate(input$input_eqns)))
     else
-      if (input$time) 
-        switch(input$method,
-               "1" = as.character(system.time(Display(Transform(parser(input$text_in))))[3]),
-               "2" = as.character(system.time(Display(Simplify(parser(ExpressionTransform(input$text_in)))))[3]),
-               "3" = as.character(system.time(ExpressionTransform(input$text_in))[3]),
-               "4" = as.character(system.time(Display(Simplify(parser(ExpressionTransform(Factor(parser(input$text_in)))))))[3]))
-      else
-        switch(input$method,
-               "1" = paste("Output:",Display(Transform(parser(input$text_in)))),
-               "2" = paste("Output:",Display(Simplify(parser(ExpressionTransform(input$text_in))))),
-               "3" = paste("Output:",ExpressionTransform(input$text_in)),
-               "4" = paste("Output:",Display(Simplify(parser(ExpressionTransform(Factor(parser(input$text_in))))))))
+      c("Output")
   }
-  else
-    "Output:"
-}
+  output$text_out = renderUI(lapply(getOutput(),div))
+})

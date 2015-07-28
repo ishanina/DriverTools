@@ -1,17 +1,20 @@
 export(
+    "CheckEqns",
     "Display",
     "Distribute",
     "ExpressionTransform",
-    "Factor",
-    "parser",
-    "Simplify",
-    "ListSort",
-    "Transform",
+    "getlastparen",
     "InvertList",
     "InvertString",
+    "ListSort",
+    "Multiply",
+    "parser",
+    "Proper",
+    "RemoveDefine",
+    "RemoveParen",
     "SatisfiableList",
-    "CheckEqns",
-    "SubstituterTherapies",
+    "Simplify",
     "Sub",
-    "RemoveDefine"
+    "SubstituterTherapies",
+    "Transform"
 )

@@ -6,8 +6,8 @@ shinyUI(fluidPage(
   titlePanel("Driver/Therapeutic Set Conversion",windowTitle = "Driver/Therapeutic Set Conversion"),
   HTML("<p>This serves to convert between equations describing driver sets of cancer and its
            corresponding set of therapeutic sets.</p> <p>To use, enter in equations describing 
-           necessary conditions for cancer. Use the operator '*' to mean 'and' and the operator
-           '+' to mean 'or'. Lastly, parentheses can be used to signify distribution. For
+           necessary conditions for cancer. Use the operator '*' to mean 'and',
+           '+' to mean 'or', and '!' to mean 'not'. Lastly, parentheses can be used to signify distribution. For
            example, '(A + D)*F' is interpreted as 'A*F + D*F'.</p>"),
   fluidRow(
     column(2,actionButton("auto","Apply"))

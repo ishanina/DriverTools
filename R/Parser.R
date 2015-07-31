@@ -50,11 +50,11 @@
 "SubstituterTherapies" <- function(eqns) {
   ExpressionSimplify <- expression({Display(Simplify(RemoveDefine(SatisfiableList(parser(InvertString(ExpressionTransform(Sub(res[[4]][i],length(res[[3]]),res[[3]],res[[4]]))))),res[[3]])))})
   res <- CheckEqns(eqns)
-  out <- NULL
   if (res[[1]]) {
-    for(i in 1:length(res[[4]])) #for each equation, it finds the therapeutic sets
-      out <- c(out,paste("!",res[[3]][i],"=",eval(ExpressionSimplify),sep = ""))
-    out
+    i <- 1
+    #for(i in 1:length(res[[4]])) #for each equation, it finds the therapeutic sets
+      out <- strsplit(eval(ExpressionSimplify), split="+", fixed = T)
+    out[[1]]
   }
   else
     "Error: Something was defined multiple times"

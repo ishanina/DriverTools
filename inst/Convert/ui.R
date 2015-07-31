@@ -13,8 +13,8 @@ shinyUI(fluidPage(
     column(2,actionButton("auto","Apply"))
   ),
   tagAppendAttributes(
-    tags$textarea(id = "input_eqns",rows = 5,'Cancer = !Apoptosis*Proliferation*!DNARepair\nApoptosis = A*B + F * Proliferation\nProliferation = C*D + DNARepair*E\nDNARepair = !Apoptosis*D*B + C*F'),
+    tags$textarea(id = "input_eqns",rows = 5,'Cancer = !Apoptosis*Proliferation*!DNARepair\nApoptosis = A*B + F * Proliferation\nProliferation = C*!D + DNARepair*E\nDNARepair = !Apoptosis*D*B + !C*F'),
     style = "max-width: 100%; min-width: 100%"),
-  HTML("<p>The output is equations describing minimal requirements to not satisfy the above equations"),
+  HTML("<p>The outputs are all possible minimal strategies to not satisfy the first equation"),
   uiOutput("text_out")
 ))

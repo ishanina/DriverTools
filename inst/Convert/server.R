@@ -4,9 +4,9 @@ library(DriverTools)
 shinyServer(function(input, output) {
   "getOutput" <- function() {
     if (input$auto)
-      c("Output",SubstituterTherapies(isolate(input$input_eqns)))
+      c("List of Strategies: ",gsub("*"," * ",SubstituterTherapies(isolate(input$input_eqns)),fixed = T))
     else
-      c("Output")
+      c("List of Strategies: ")
   }
   output$text_out = renderUI(lapply(getOutput(),div))
 })

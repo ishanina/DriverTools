@@ -13,6 +13,6 @@ InvertString(string)
 Inverts a string by applying '!' to each variable
 }
 \examples{
-InvertString("A + B*(C+D)")
+InvertString("A + B&(C+D)")
 }
 

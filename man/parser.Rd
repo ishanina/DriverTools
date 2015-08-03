@@ -16,9 +16,9 @@ the driver/therapeutic sets denoted by the input string
 Parses input to interpret it as driver/therapeutic sets
 }
 \details{
-this function explicitly requires the multiplication operator '*'
+this function explicitly requires the multiplication operator '&'
 }
 \examples{
-parser("(A*(B + C)*D + C*(D+E*(F+C))*A*G)")
+parser("(A&(B + C)&D + C&(D+E&(F+C))&A&G)")
 }
 

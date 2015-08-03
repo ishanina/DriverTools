@@ -20,7 +20,7 @@ substitutes in equations into eachother the number of times that there are equat
 Then, the terms involving defined terms are removed and the resulting minimal ones are returned.
 }
 \examples{
-SubstituterTherapies("C = !A*B\\nB = D*C+E*A\\nA = F+C")
-SubstituterTherapies("P = P*!C + A")
+SubstituterTherapies("C = !A&B\\nB = D&C+E&A\\nA = F+C")
+SubstituterTherapies("P = P&!C + A")
 }
 

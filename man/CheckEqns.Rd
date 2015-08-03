@@ -21,6 +21,6 @@ This gives important information about a string with equations.
 }
 \examples{
 CheckEqns("A = B + C\\nA = C + A")
-CheckEqns("A = B*C\\nD = E+A")
+CheckEqns("A = B&C\\nD = E+A")
 }
 

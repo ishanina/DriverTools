@@ -17,6 +17,6 @@ a list of all the ways to combine elements from each list
 Distributes two lists of lists
 }
 \examples{
-Multiply(parser("A*B"),parser("C+D"))
+Multiply(parser("A&B"),parser("C+D"))
 }
 

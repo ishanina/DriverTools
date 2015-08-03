@@ -20,6 +20,6 @@ any driver/therapeutic set with some string
 as well as the string with '!' is not satisfiable and is removed
 }
 \examples{
-SatisfiableList(parser("A*!A+B"))
+SatisfiableList(parser("A&!A+B"))
 }
 

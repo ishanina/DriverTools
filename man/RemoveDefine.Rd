@@ -17,6 +17,6 @@ driver/therapeutic sets without the defined terms
 Removes lists in a list containing any defined terms
 }
 \examples{
-RemoveDefine(parser("A*B+A*C+D*B*+E*F"),list("A"))
+RemoveDefine(parser("A&B+A&C+D&B&+E&F"),list("A"))
 }
 

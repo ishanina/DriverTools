@@ -7,7 +7,7 @@
 #' a list of the right hand sides of the equations.
 #' @examples 
 #' CheckEqns("A = B + C\nA = C + A")
-#' CheckEqns("A = B*C\nD = E+A")
+#' CheckEqns("A = B&C\nD = E+A")
 "CheckEqns" <- function(input_string) {
   AddName <- expression({ #adds a variable to the list of variables
     if (stri != "" && !is.element(stri,inputs))
@@ -30,7 +30,7 @@
                right <- union(right,list(paste("(",substr(i,j+1,nchar(i)),")",sep = "")))
                eval(AddName)
              },
-             "(" =,")" =,"*" =,"+" = eval(AddName),
+             "(" =,")" =,"&" =,"+" = eval(AddName),
              stri <- paste(stri,substr(i,j,j),sep = "")
       )
     }
@@ -45,15 +45,14 @@
 #' @details substitutes in equations into eachother the number of times that there are equations.
 #' Then, the terms involving defined terms are removed and the resulting minimal ones are returned.
 #' @examples 
-#' SubstituterTherapies("C = !A*B\nB = D*C+E*A\nA = F+C")
-#' SubstituterTherapies("P = P*!C + A")
+#' SubstituterTherapies("C = !A&B\nB = D&C+E&A\nA = F+C")
+#' SubstituterTherapies("P = P&!C + A")
 "SubstituterTherapies" <- function(eqns) {
   ExpressionSimplify <- expression({Display(Simplify(RemoveDefine(SatisfiableList(parser(InvertString(ExpressionTransform(Sub(res[[4]][i],length(res[[3]]),res[[3]],res[[4]]))))),res[[3]])))})
   res <- CheckEqns(eqns)
   if (res[[1]]) {
     i <- 1
-    #for(i in 1:length(res[[4]])) #for each equation, it finds the therapeutic sets
-      out <- strsplit(eval(ExpressionSimplify), split="+", fixed = T)
+    out <- strsplit(eval(ExpressionSimplify), split="+", fixed = T)
     out[[1]]
   }
   else
@@ -64,7 +63,7 @@
 #' @param input_list a list of driver/therapeutic sets
 #' defined a list of terms that are to be removed
 #' @return driver/therapeutic sets without the defined terms
-#' @examples RemoveDefine(parser("A*B+A*C+D*B*+E*F"),list("A"))
+#' @examples RemoveDefine(parser("A&B+A&C+D&B&+E&F"),list("A"))
 "RemoveDefine" <- function(input_list,defined) {
   correct = !is.na(input_list)
   for (i in 1:length(input_list))
@@ -108,7 +107,7 @@
   out <- ""
   for (i in 1:nchar(expr)) {
     switch(substr(expr,i,i),
-           "(" =,")" =,"*" =,"+" = {
+           "(" =,")" =,"&" =,"+" = {
              eval(addstri)
              stri <- ""
              out <- paste(out,substr(expr,i,i),sep = "")
@@ -128,7 +127,7 @@
 #' @return satisfiable driver/therapeutic sets
 #' @details any driver/therapeutic set with some string 
 #' as well as the string with '!' is not satisfiable and is removed
-#' @examples SatisfiableList(parser("A*!A+B"))
+#' @examples SatisfiableList(parser("A&!A+B"))
 "SatisfiableList" <- function(input_list) {
   a = !is.na(input_list)
   for (i in 1:length(input_list))
@@ -156,14 +155,14 @@
 }
 #' Inverts a string by applying '!' to each variable
 #' @param string
-#' @examples InvertString("A + B*(C+D)")
+#' @examples InvertString("A + B&(C+D)")
 "InvertString" <- function(string) {
   string <- gsub(" ","",string)
   out <- ""
   add <- ""
   for (i in 1:nchar(string)){
     switch(substr(string,i,i),
-           "(" = ,")" = ,"+" = ,"*" = {
+           "(" = ,")" = ,"+" = ,"&" = {
              if (add != "") {
                if (substr(add,1,1) == "!")
                  out <- paste(out,substr(add,2,nchar(add)),sep = "")
@@ -186,9 +185,9 @@
 #' Parses input to interpret it as driver/therapeutic sets
 #' @param input
 #' @return the driver/therapeutic sets denoted by the input string
-#' @details this function explicitly requires the multiplication operator '*'
+#' @details this function explicitly requires the multiplication operator '&'
 #' @examples
-#' parser("(A*(B + C)*D + C*(D+E*(F+C))*A*G)")
+#' parser("(A&(B + C)&D + C&(D+E&(F+C))&A&G)")
 "parser" <- function(input) {
   if (!Proper(input) || input == "" || input == "+")
     list(list("Incorrect Input"))
@@ -215,7 +214,7 @@
                name <- paste(name,substr(no,1,1),sep = "")
                no <- substr(no, 2,nchar(no))
              },
-             "*" = {
+             "&" = {
                if (name != "")
                  b <- Multiply(b,list(list(name)))
                no <- substr(no, 2,nchar(no))
@@ -247,7 +246,7 @@ getlastparen <- function(s){
 #' @param lon a list of driver/therapeutic sets
 #' lo a list of driver/therapeutic sets
 #' @return a list of all the ways to combine elements from each list
-#' @examples Multiply(parser("A*B"),parser("C+D"))
+#' @examples Multiply(parser("A&B"),parser("C+D"))
 Multiply <- function(lon,lo) {
   if (length(lon) != 0) {
     out <- list()
@@ -266,7 +265,7 @@ Multiply <- function(lon,lo) {
 #' @examples Proper("(AB)")
 #' Proper("((((((AB)))))")
 Proper <- function(string) {
-  value <- as.numeric(regexpr("\\([^\\(]*$", string)) <= as.numeric(regexpr("\\)[^\\)]*$", string))
+  value <- as.numeric(regexpr("\\([^\\(]&$", string)) <= as.numeric(regexpr("\\)[^\\)]&$", string))
   string <- gsub("A","",string,fixed = T)
   string <- gsub("B","",string,fixed = T)
   string <- gsub("(","A",string,fixed = T)

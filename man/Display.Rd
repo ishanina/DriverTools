@@ -16,7 +16,7 @@ string to diplay
 Displays drivers or therapeutics in a simple way
 }
 \details{
-it functions using an explicit '*' operator
+it functions using an explicit '&' operator
 }
 \examples{
 print(Display(list(list("A",9),list("G",3.567))))
